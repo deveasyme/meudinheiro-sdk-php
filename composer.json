@@ -1,0 +1,22 @@
+{
+    "name": "easyme/meudinheiro-sdk-php",
+    "description": "API PHP para conexão com o Meu Dinheiro",
+    "keywords": ["easyme","meudinheiro","meudinheiroweb"],
+    "type": "library",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Easyme Tecnologia e Inovacao Ltda",
+            "email": "comercial@easyme.com.br"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php" : ">=5.4.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Meudinheiro": "src/"
+        }
+    }
+}
