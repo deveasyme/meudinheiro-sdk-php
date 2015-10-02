@@ -9,11 +9,17 @@ namespace Meudinheiro\Exception;
  */
 class ApiRequestException extends \Exception{
     
-    public function __construct($code, $message) {
+    private $apiErrorId;
+    
+    public function __construct($apiErrorId, $message, $httpCode) {
         
-        parent::__construct($message, $code, null);
+        parent::__construct($message, $httpCode, null);
+     
         
+        $this->apiErrorId = $apiErrorId;
     }
     
-    
+    public function getApiError(){
+        return $this->apiErrorId;
+    }
 }

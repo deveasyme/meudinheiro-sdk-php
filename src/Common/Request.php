@@ -33,9 +33,11 @@ class Request {
     }
     public function put( $id , $data ){
         
-        return $this->request('PUT',$id,[
-            'form_params' => $data
+        $response = $this->request('PUT',$id,[
+            'json' => $data
         ]);
+        
+        return array_key_exists('id', $response) ? $response['id'] : $id;
         
     }
     
@@ -63,7 +65,7 @@ class Request {
             
             $error = json_decode($response->getBody());
             
-            $exApi = new \Meudinheiro\Exception\ApiRequestException($error->error, $error->message);
+            $exApi = new \Meudinheiro\Exception\ApiRequestException($error->error, $error->message,$ex->getCode());
             
             throw $exApi;
        
