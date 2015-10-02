@@ -22,6 +22,7 @@ class TemplatesTest extends \PHPUnit_Framework_TestCase{
         
         $api = $this->api->get('formas');
         
+        
         $forma = new \Meudinheiro\Forma();
         $forma->nome = "Gustavo";
         
@@ -46,5 +47,35 @@ class TemplatesTest extends \PHPUnit_Framework_TestCase{
         
     }
     
+    public function testProjeto(){
+        
+        $api = $this->api->get('projetos');
+        
+        $projeto = new \Meudinheiro\Projeto();
+        $projeto->nome = "projeto teste 1";
+        
+        $api->create($projeto);
+        
+        $this->assertTrue($projeto->id > 0);
+        $this->assertEquals('#F2F2F2',$projeto->cor);
+        
+        $projeto->nome = "projeto teste editado";
+        $projeto->cor = "#F3F3F3";
+        $api->update($projeto);
+        
+        
+        $projetoR = $api->get($projeto->id);
+        $this->assertEquals($projetoR->nome,$projeto->nome);
+        $this->assertEquals($projetoR->cor,$projeto->cor);
+        
+        $api->delete($projeto->id);
+        
+        try{
+            $api->get($projeto->id);
+        } catch (\Meudinheiro\Exception\ApiRequestException $ex) {
+            $this->assertEquals('ProjetoNotFound',$ex->getApiError());
+        }
+        
+    }
 
 }

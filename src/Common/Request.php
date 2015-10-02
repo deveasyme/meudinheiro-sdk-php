@@ -28,16 +28,14 @@ class Request {
         
         return $this->request('POST',null,[
             'form_params' => $data
-        ])['id'];
+        ]);
         
     }
     public function put( $id , $data ){
         
-        $response = $this->request('PUT',$id,[
+        return $this->request('PUT',$id,[
             'json' => $data
         ]);
-        
-        return array_key_exists('id', $response) ? $response['id'] : $id;
         
     }
     
@@ -52,6 +50,8 @@ class Request {
         try{
             
             $response = $this->client->request($method,$uri,$options);
+
+//            echo $response->getBody();
             
             return json_decode($response->getBody(),true);
             

@@ -84,19 +84,25 @@ class Client implements ClientInterface{
         
     }
     
-    public function create(TemplateInterface $template) {
+    public function create(TemplateInterface &$template) {
         
-        $id = $this->request->post($template->toArray());
+        $newTemplateArray = $this->request->post($template->toArray());
         
-        $template->setId($id);
+//        $template->setFr
+        
+        $template = $template::fromArray($newTemplateArray);
+        
+//        $template->setId($newTemplate->id);
+        
+//        return $newTemplate;
         
     }
 
-    public function update(TemplateInterface $template) {
+    public function update(TemplateInterface &$template) {
         
-        $id = $this->request->put($template->getId() , $template->toArray());
+        $newTemplateArray = $this->request->put($template->getId() , $template->toArray());
         
-        $template->setId($id);
+        $template = $template::fromArray($newTemplateArray);
         
     }
     
