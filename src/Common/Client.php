@@ -3,56 +3,65 @@
 namespace Meudinheiro\Common;
 
 
-abstract class AbstractClient implements ClientInterface{
+class Client implements ClientInterface{
 
     /*The client instance*/
-    private static $singleton;
+    private static $clients = array();
+    
+    private $clientName;
     
     private $config;
+    
+    private $templateName;
     
     private static $MEUDINHEIRO_URL = "https://www.meudinheiroweb.com.br/api";
     
     private $request;
     
-    public function __construct($config) {
+    public function __construct($clientName, $config) {
         
+        $this->clientName = $clientName;
         $this->config = $config;
-        
-        $apiName = strtolower(str_replace("Client","",end(explode('\\', get_called_class()))));
         
         $base_url = $config['api_url'] ? $config['api_url'] : self::$MEUDINHEIRO_URL;
         
-        $this->request = new Request( $base_url.'/'.$apiName, $config );
-        
+        $this->request = new Request( $base_url.'/'.$clientName, $config );
         
     }
     
-    public static function factory($config){
-        
-        if(!self::$singleton){
-            /*Parent class name*/
-            $calledClass = get_called_class();
-            self::$singleton = new $calledClass($config);
+    public static function factory($clientName, $config){
+        if(!array_key_exists($clientName, self::$clients)){
+            self::$clients[$clientName] = new Client($clientName, $config);
         }
 
-        return self::$singleton;
+        return self::$clients[$clientName];
         
+    }
+    
+    public function setTemplate($templateName){
+        $this->templateName = $templateName;
     }
     
     private function _getTemplate(){
-        $called_class_array = explode('\\', get_called_class());
-        $template_class_name = str_replace("sClient","",end($called_class_array)) . 'Template';
-        $called_class_array[sizeof($called_class_array) - 1] = $template_class_name;
-        $template_class_name = implode("\\", $called_class_array);
-
-        if(class_exists($template_class_name)){
-            $interfaces = class_implements($template_class_name);
+        
+        $templateName = 'Meudinheiro\\';
+        
+        if($this->templateName){
+            $templateName .= $this->templateName;
+        }else{
+            $templateName .= ucfirst(substr($this->clientName,0,-1));
+        }
+        
+        if(class_exists($templateName)){
+            
+            $interfaces = class_implements($templateName);
             if(isset($interfaces['Meudinheiro\Common\TemplateInterface'])){
-                return $template_class_name;
+                return $templateName;
             }
         }
+        
+        throw new Exception\TemplateNotFoundException($templateName);
 
-        throw new Exception\TemplateNotFoundException($template_class_name);
     }
 
     public function get($id = null) {
@@ -70,10 +79,8 @@ abstract class AbstractClient implements ClientInterface{
             return $template_class::fromArray($data);
         }
         
-        /*Loading object list*/
-        return array_map(function($dataArray) use ($template_class){
-            return $template_class::fromArray($dataArray);
-        },$data);
+        return new ClientCollection($template_class, $data);
+        
         
     }
     

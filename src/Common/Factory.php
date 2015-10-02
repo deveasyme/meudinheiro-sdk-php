@@ -27,14 +27,7 @@ class Factory {
      */
     public function get($clientName){
         
-        $clientNameUpper = ucfirst($clientName);
-        $className = "Meudinheiro\\{$clientNameUpper}\\{$clientNameUpper}Client";
-        
-        if(class_exists($className)){
-            return $className::factory($this->config);
-        }
-        
-        throw new Exception\ClientNotFoundException($className);
+        return Client::factory($clientName,$this->config);
         
     }
     

@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Meudinheiro\Common\Exception;
+namespace Meudinheiro\Exception;
 
 /**
  * Description of ClientNotFoundException
