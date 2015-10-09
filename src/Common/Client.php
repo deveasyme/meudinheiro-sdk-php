@@ -60,7 +60,7 @@ class Client implements ClientInterface{
             }
         }
         
-        throw new Exception\TemplateNotFoundException($templateName);
+        throw new \Meudinheiro\Exception\TemplateNotFoundException($templateName);
 
     }
 
