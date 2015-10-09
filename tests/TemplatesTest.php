@@ -265,6 +265,7 @@ class TemplatesTest extends \PHPUnit_Framework_TestCase{
         $conta->limite = 200.0;
         $conta->contato = '';
         $conta->telefone = '';
+        $conta->tipoInvestimento = 1;
         
         // campos opcionais
         // $conta->dataExtrato = date('Y/m/d', strtotime('1983-08-25'));

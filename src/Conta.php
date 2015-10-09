@@ -21,6 +21,7 @@ class Conta extends Template{
     public $agencia;
     public $numeroConta;    
     public $contato;    
-    public $telefone;    
+    public $telefone;
+    public $tipoInvestimento;
 
 }
