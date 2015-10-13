@@ -358,5 +358,38 @@ class TemplatesTest extends \PHPUnit_Framework_TestCase{
         $this->assertEquals($categoriaContato->nome,$categoriaContatoR->nome);
         
     }
+    
+    public function testRegra(){
+        
+        $api = $this->api->get('regras');
+        
+        $regra = new \Meudinheiro\Regra();
+        
+        $regra->nome = "regra inclusão teste";
+        $regra->descricao_importacao = 'descricao importacao';
+        $regra->tipo_lancamento = 'd';
+        
+        $api->create($regra);
+        
+        $this->assertTrue($regra->id > 0);
+        
+        $regra->nome = "regra inclusão teste editada";
+        $regra->tipo_lancamento = 'r';
+        
+        $api->update($regra);
+        
+        $regraR = $api->get($regra->id);
+        $this->assertEquals($regra->nome,$regraR->nome);
+        
+        // excluindo regra
+        $api->delete($regra->id);
+        
+        try{
+            $api->get($regra->id);
+        } catch (\Meudinheiro\Exception\ApiRequestException $ex) {
+            $this->assertEquals('RegraNotFound',$ex->getApiError());
+        }
+        
+    }
 
 }
