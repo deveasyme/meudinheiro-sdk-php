@@ -10,7 +10,7 @@ class Request {
     public function __construct( $apiUrl , $credentials ) {
         
         // Os dados de autenticacao vao ser configurados aqui no curl
-        $this->client = new \GuzzleHttp\Client(['base_uri' => $apiUrl . '/']);
+        $this->client = new \GuzzleHttp\Client(['base_uri' => $apiUrl ]);
     }
     
     public function get($id = null){
