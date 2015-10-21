@@ -7,11 +7,16 @@ Meudinheiro\Common\Template;
 
 class Conta extends Template{
     
+    const CONTA_CORRENTE = 1;
+    const DINHEIRO = 2;
+    const OUTROS = 3;
+    const INVESTIMENTO = 4;
+    
     public $nome;
     public $tipo;
     public $limite;
     public $compoeSaldo;
-    public $ativa;
+    public $status;
     public $saldoExtrato;
     public $dataExtrato;    
     public $apenasTransferencia;
@@ -23,5 +28,7 @@ class Conta extends Template{
     public $contato;    
     public $telefone;
     public $tipoInvestimento;
-
+    public $saldoInicial;
+    public $dataSaldoInicial;
+    public $categorias;
 }

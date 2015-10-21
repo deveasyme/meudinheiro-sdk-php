@@ -6,11 +6,14 @@ namespace Meudinheiro\Common;
 class Request {
     
     private $client;
+    private $apiUrl;
     
     public function __construct( $apiUrl , $credentials ) {
         
         // Os dados de autenticacao vao ser configurados aqui no curl
-        $this->client = new \GuzzleHttp\Client(['base_uri' => $apiUrl ]);
+        $this->client = new \GuzzleHttp\Client();
+        
+        $this->apiUrl = $apiUrl;
     }
     
     public function get($id = null){
@@ -49,7 +52,11 @@ class Request {
         
         try{
             
-            $response = $this->client->request($method,$uri,$options);
+            $url = $this->apiUrl;
+            
+            if($uri) $url .= '/' . $uri;
+            
+            $response = $this->client->request($method,$url,$options);
 
 //            echo $response->getBody();
             

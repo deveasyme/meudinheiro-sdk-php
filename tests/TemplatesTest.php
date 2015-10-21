@@ -19,7 +19,7 @@ class TemplatesTest extends \PHPUnit_Framework_TestCase{
     }
     
     public function testFormas(){
-        
+        $this->assertTrue(true);
         $api = $this->api->get('formas');
         
         
@@ -266,6 +266,8 @@ class TemplatesTest extends \PHPUnit_Framework_TestCase{
         $conta->contato = '';
         $conta->telefone = '';
         $conta->tipoInvestimento = 1;
+        $conta->saldoInicial = 12.5;
+        $conta->dataSaldoInicial = new DateTime();
         
         // campos opcionais
         // $conta->dataExtrato = date('Y/m/d', strtotime('1983-08-25'));
@@ -284,6 +286,8 @@ class TemplatesTest extends \PHPUnit_Framework_TestCase{
         
         $contaR = $api->get($conta->id);
         $this->assertEquals($conta->nome,$contaR->nome);
+        
+        // adicionar teste query
         
     }
     
@@ -337,11 +341,11 @@ class TemplatesTest extends \PHPUnit_Framework_TestCase{
     
     public function testCategoriaContato(){
         
-        $api = $this->api->get('categoriasContatos');
+        $api = $this->api->get('categoriasContato');
         
         $api->setTemplate('CategoriaContato');
         
-        $categoriaContato = new \Meudinheiro\CategoriaContato(); 
+        $categoriaContato = new \Meudinheiro\CategoriaContato();
         
         $categoriaContato->nome = 'categoria contato teste ccu';
         
